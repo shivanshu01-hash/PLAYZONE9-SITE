@@ -1,7 +1,7 @@
 {
-  "name": "winzing-login",
+  "name": "playzone9-login",
   "version": "1.0.0",
-  "description": "Login system for Winzing Exchange with notifications",
+  "description": "Login system for PlayZone9 with Telegram, Email & Supabase notifications",
   "dependencies": {
     "@supabase/supabase-js": "^2.43.4",
     "nodemailer": "^6.9.13",
