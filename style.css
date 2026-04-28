@@ -55,8 +55,19 @@ html, body {
 
 /* -- Login Title ---------------------------------------------- */
 .login-title {
-    display: none;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #1877c4;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
+.login-title i { font-size: 18px; color: #1877c4; }
 
 /* -- Input Groups --------------------------------------------- */
 .input-group {
