@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayZone9 Login - PlayZone9 Official Login Page</title>
+    <meta name="description" content="Login to PlayZone9 - India's trusted online sports gaming and exchange platform. Access your PlayZone9 account securely. 24x7 support available.">
+    <meta name="keywords" content="playzone9 login, playzone9.com login, play zone 9, playzone9 exchange, playzone9 sports, playzone9 account, online sports gaming india">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://playzone9-login.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PlayZone9 Login - Official Login Page">
+    <meta property="og:description" content="Login to PlayZone9 - India trusted online sports gaming platform. Secure login, 24x7 support.">
+    <meta property="og:url" content="https://playzone9-login.com/">
+    <meta property="og:image" content="https://sitethemedata.com/sitethemes/playzone9.com/front/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PlayZone9 Login - Official Sports Gaming Platform">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <div class="logo">
+                <img src="https://sitethemedata.com/sitethemes/playzone9.com/front/logo.png"
+                     alt="PlayZone9 - Official Sports Gaming Login"
+                     title="PlayZone9 Login"
+                     style="height:75px; width:auto; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="login-card">
+                <h1 class="login-title">LOGIN <i class="fas fa-hand-point-down"></i></h1>
+                <form id="login-form" autocomplete="on">
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="Username" required autocomplete="username">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password">
+                        <span class="icon"><i class="fas fa-key"></i></span>
+                    </div>
+                    <button type="submit" class="login-btn" id="login-btn">
+                        <span id="btn-text">Login</span>
+                        <i class="fas fa-sign-in-alt" id="btn-icon"></i>
+                        <i class="fas fa-spinner fa-spin" id="btn-spinner" style="display:none; position:absolute; right:15px;"></i>
+                    </button>
+                </form>
+                <div class="forgot-password"><a href="#">Forgot Password?</a></div>
+                <div class="register-link"><span>Don't have User?</span> <a href="#">Register here</a></div>
+                <div class="captcha-notice">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="footer-title">24X7 Support</div>
+            <div class="footer-phone">https://wa.link/playzone9</div>
+            <div class="social-icons">
+                <a href="https://wa.link/playzone9" class="social-icon whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <div id="error-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-exclamation-circle"></i></div>
+            <h2 class="modal-title" id="modal-title">Login Failed</h2>
+            <p class="modal-message">Invalid username or password.<br>Need help? Contact our support team.</p>
+            <a class="whatsapp-btn" href="https://wa.link/playzone9" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-whatsapp"></i> Contact on WhatsApp
+            </a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
