@@ -9,6 +9,13 @@ html, body {
     background-attachment: fixed;
 }
 
+/* -- Safe area support for modern mobile browsers ------------- */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .footer {
+        padding-bottom: calc(9px + env(safe-area-inset-bottom)) !important;
+    }
+}
+
 /* -- Page Container ------------------------------------------- */
 .page-container {
     display: flex;
@@ -143,7 +150,8 @@ html, body {
 .footer {
     flex-shrink: 0;            /* footer never shrinks or moves */
     background: #0088CC;
-    padding: 7px 0 9px;
+    padding: 8px 0 14px;       /* extra bottom padding so WhatsApp icon is never cut off */
+    padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
     text-align: center;
     color: #fff;
 }
@@ -156,7 +164,7 @@ html, body {
     letter-spacing: 1px;
 }
 
-.footer-phone { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 9px; }
+.footer-phone { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 8px; }
 
 .social-icons { display: flex; justify-content: center; gap: 12px; }
 .social-icon {
