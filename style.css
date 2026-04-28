@@ -46,9 +46,9 @@ html, body {
 /* -- Login Card (narrower) ------------------------------------ */
 .login-card {
     background: #ffffff;
-    width: 92%;                /* slightly narrower than before */
-    max-width: 360px;          /* reduced from 400px */
-    padding: 12px 18px 12px;
+    width: 96%;
+    max-width: 385px;
+    padding: 8px 18px 8px;
     border-radius: 6px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
 }
