@@ -53,5 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function showErrorModal() {
     const modal = document.getElementById("error-modal");
-    if (modal) modal.style.display = "flex";
+    if (modal) {
+        /* Use setProperty so site CSS (Bootstrap etc.) cannot override with !important */
+        modal.style.setProperty('display', 'flex', 'important');
+    }
 }
