@@ -1,0 +1,8 @@
+# robots.txt for PlayZone9 - https://playzone9.site
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://playzone9.site/sitemap.xml

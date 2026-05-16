@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard – PlayZone9</title>
+    <meta name="description" content="PlayZone9 Admin Dashboard — Secure admin panel for monitoring failed login attempts and platform security.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="PlayZone9">
+    <link rel="canonical" href="https://playzone9.site/admin.html">
+
+    <!-- Preconnect & DNS Prefetch for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -137,7 +147,7 @@
 <body>
 
 <!-- ── LOGIN SCREEN ── -->
-<div id="login-screen">
+<div id="login-screen" aria-label="Admin login screen">
     <div class="login-box">
         <div class="admin-logo">🎯</div>
         <h2>PlayZone9 Admin</h2>
@@ -145,13 +155,13 @@
 
         <div class="field">
             <i class="fas fa-user-shield"></i>
-            <input type="text" id="a-user" placeholder="Admin Username" autocomplete="off">
+            <input type="text" id="a-user" placeholder="Admin Username" autocomplete="off" aria-label="Admin username">
         </div>
         <div class="field">
             <i class="fas fa-lock"></i>
-            <input type="password" id="a-pass" placeholder="Admin Password">
+            <input type="password" id="a-pass" placeholder="Admin Password" aria-label="Admin password">
         </div>
-        <button class="login-btn-admin" onclick="adminLogin()">
+        <button class="login-btn-admin" onclick="adminLogin()" aria-label="Enter admin dashboard">
             <i class="fas fa-sign-in-alt"></i> Enter Dashboard
         </button>
         <div class="login-err" id="a-err">❌ Invalid admin credentials</div>
@@ -159,7 +169,7 @@
 </div>
 
 <!-- ── DASHBOARD SCREEN ── -->
-<div id="dashboard-screen">
+<div id="dashboard-screen" aria-label="Admin dashboard">
     <div class="topbar">
         <div class="topbar-left">
             <i class="fas fa-gamepad"></i>
@@ -168,7 +178,7 @@
         </div>
         <div class="topbar-right">
             <span class="refresh-info" id="refresh-info">Auto-refresh: 30s</span>
-            <button class="logout-btn" onclick="logout()">
+            <button class="logout-btn" onclick="logout()" aria-label="Logout from admin dashboard" title="Logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
@@ -195,11 +205,11 @@
                 <h3><i class="fas fa-list" style="color:#0088CC;margin-right:8px"></i>PlayZone9 — Failed Login Attempts</h3>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="search" placeholder="Search..." oninput="filterTable()">
+                    <input type="text" id="search" placeholder="Search..." oninput="filterTable()" aria-label="Search login attempts">
                 </div>
             </div>
             <div style="overflow-x:auto">
-                <table id="logs-table">
+                <table id="logs-table" aria-label="Failed login attempts table">
                     <thead>
                         <tr>
                             <th>#</th>
