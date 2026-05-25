@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+/* Google Fonts loaded via <link> in HTML for non-render-blocking delivery */
 
 :root {
   --app-height: 100%;
@@ -387,7 +387,7 @@ a {
     url("../fonts/dfont.svg") format("svg");
   font-weight: normal;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
 [class^="icon-"],

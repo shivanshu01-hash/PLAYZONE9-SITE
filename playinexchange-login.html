@@ -46,14 +46,28 @@
     }
     </script>
 
-    <!-- Preconnect & DNS Prefetch for Performance -->
+    <!-- Preconnect & DNS Prefetch -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: loaded via <link> for non-render-blocking delivery -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"></noscript>
+
+    <!-- Font Awesome: deferred -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- Pages CSS: critical for layout, loads normally -->
     <link rel="stylesheet" href="./PLAYZONE9_files/pages.css">
+    <link rel="preload" as="image" href="./PLAYZONE9_files/logo.png">
 </head>
 <body class="pz-page">
+<main>
 
     <!-- Top Navigation -->
     <nav class="pz-topnav" aria-label="Main navigation">
@@ -149,7 +163,7 @@
         <div class="pz-footer-inner">
             <div class="pz-footer-top">
                 <div class="pz-footer-brand">
-                    <img src="./PLAYZONE9_files/logo.png" alt="PlayZone9" width="40" height="40" title="PlayZone9 Logo">
+                    <img src="./PLAYZONE9_files/logo.png" alt="PlayZone9" width="40" height="40" title="PlayZone9 Logo" loading="lazy">
                     <p>India's most trusted sports tips and predictions platform. Stay informed and make smarter sports decisions.</p>
                     <a href="mailto:support@playzone9.co.in" class="pz-footer-email" title="Email PlayZone9 Support"><i class="fas fa-envelope"></i> support@playzone9.co.in</a>
                 </div>

