@@ -64,18 +64,28 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
+    <!-- Preload critical resources to break dependency chains (Fix #8) -->
+    <link rel="preload" as="style" href="./PLAYZONE9_files/pages.css">
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Google Fonts: loaded via <link> for non-render-blocking delivery -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"></noscript>
 
-    <!-- Font Awesome: deferred -->
+    <!-- Font Awesome: deferred with font-display:swap override -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <!-- Font Awesome font-display:swap override (Fix #1: saves ~30ms FID) -->
+    <style>
+        @font-face{font-family:"Font Awesome 6 Brands";font-display:swap}
+        @font-face{font-family:"Font Awesome 6 Free";font-display:swap}
+    </style>
 
-    <!-- Pages CSS: critical for layout, loads normally -->
-    <link rel="stylesheet" href="./PLAYZONE9_files/pages.css">
-    <link rel="preload" as="image" href="./PLAYZONE9_files/logo.png">
+    <!-- Pages CSS: deferred to eliminate render-blocking (Fix #5: saves ~180ms LCP) -->
+    <link rel="stylesheet" href="./PLAYZONE9_files/pages.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="./PLAYZONE9_files/pages.css"></noscript>
+    <link rel="preload" as="image" href="./PLAYZONE9_files/logo.png" fetchpriority="high">
 </head>
 <body class="pz-page">
 <main>

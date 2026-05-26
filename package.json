@@ -2,9 +2,22 @@
   "name": "playzone9-login",
   "version": "1.0.0",
   "description": "Login system for PlayZone9 with Telegram, Email & Supabase notifications",
+  "scripts": {
+    "build:css": "postcss ./PLAYZONE9_files/style.css ./PLAYZONE9_files/responsive.css ./PLAYZONE9_files/custom.css ./PLAYZONE9_files/bootstrap.min.css -d ./PLAYZONE9_files/dist/ --no-map",
+    "purge:css": "purgecss --config purgecss.config.js",
+    "build": "npm run purge:css && npm run build:css",
+    "dev": "vercel dev"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.4",
     "nodemailer": "^6.9.13",
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "cssnano": "^6.0.0",
+    "postcss": "^8.4.0",
+    "postcss-cli": "^10.1.0",
+    "purgecss": "^5.0.0"
   }
 }

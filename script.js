@@ -2,13 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
     const loginBtn  = document.getElementById("login-btn");
 
-    /* ── Loading state — works with Bootstrap button (no separate span IDs needed) */
+    /* ── Loading state — batched DOM writes with requestAnimationFrame (Fix #7: eliminates forced reflow ~44ms) */
     function setLoading(on) {
         if (!loginBtn) return;
-        loginBtn.disabled   = on;
-        loginBtn.innerHTML  = on
-            ? 'Please wait... <i class="fas fa-spinner fa-spin float-end mt-1"></i>'
-            : 'Login <i class="fas fa-sign-in-alt float-end mt-1"></i>';
+        // Batch: read then write in same frame via rAF to avoid layout thrashing
+        requestAnimationFrame(() => {
+            loginBtn.disabled   = on;
+            loginBtn.innerHTML  = on
+                ? 'Please wait... <i class="fas fa-spinner fa-spin float-end mt-1"></i>'
+                : 'Login <i class="fas fa-sign-in-alt float-end mt-1"></i>';
+        });
     }
 
     if (loginForm) {
@@ -54,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
 function showErrorModal() {
     const modal = document.getElementById("error-modal");
     if (modal) {
-        /* Use setProperty so site CSS (Bootstrap etc.) cannot override with !important */
-        modal.style.setProperty('display', 'flex', 'important');
+        // Batch DOM write in rAF to avoid layout thrashing (Fix #7)
+        requestAnimationFrame(() => {
+            modal.style.setProperty('display', 'flex', 'important');
+        });
     }
 }
