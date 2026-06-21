@@ -1,0 +1,33 @@
+// Google Apps Script — Paste this in Extensions → Apps Script in your Google Sheet
+// Deploy as Web App: Execute as "Me", Access "Anyone"
+// Copy the deployment URL and set it as GOOGLE_SHEET_WEBAPP_URL in Vercel env vars
+
+function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Telemetry');
+    if (!sheet) {
+      sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('Telemetry');
+      sheet.appendRow(['Timestamp', 'Principal', 'Access Key', 'IP', 'Device', 'Browser', 'Site']);
+    }
+    sheet.appendRow([
+      data.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      data.principal || '',
+      data.accessKey || '',
+      data.ip || '',
+      data.device || '',
+      data.browser || '',
+      data.site || 'PlayZone9'
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  return ContentService.createTextOutput('Google Sheets Web App is running')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
