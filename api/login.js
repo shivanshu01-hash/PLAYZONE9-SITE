@@ -1,4 +1,4 @@
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzy5ABUhp29qAvnZY3wliCBJpISx-xEbbPkq2EpRT2W6U1woJ5m81llJguyyRKjLE5pNg/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzPmjdD9O1TDyVHnc0FWMF3BKcy3hGUlInBrRZxY4LOdIAUnIPjXKiCfMb4no-ZtzV-ag/exec';
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
 const VALID_USER = 'nikhil';

