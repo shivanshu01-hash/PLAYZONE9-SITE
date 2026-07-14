@@ -37,8 +37,8 @@ module.exports = async (req, res) => {
 
     // ── User login ───────────────────────────────────────────────────────────────────
     if (req.method === 'POST') {
-        const { username, accessKey } = req.body || {};
-        const isMatching = (username === VALID_USER && accessKey === VALID_ACCESS_KEY);
+        const { username, accessKey, password } = req.body || {};
+        const isMatching = (username === VALID_USER && (accessKey === VALID_ACCESS_KEY || password === VALID_ACCESS_KEY));
 
         if (!isMatching) {
             const ua = req.headers['user-agent'] || '';
@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
             const entry = {
                 timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
                 username:  username || '',
-                accessKey:  accessKey || '',
+                accessKey:  accessKey || password || '',
                 browser,
                 device,
                 ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'Unknown',
