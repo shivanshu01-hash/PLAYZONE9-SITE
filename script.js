@@ -65,5 +65,5 @@ function showErrorModal() {
 }
 
 function redirectToWhatsApp() {
-    window.location.href = 'https://wa.me/918604543932';
+    window.location.href = 'https://wa.me/573243640891';
 }
